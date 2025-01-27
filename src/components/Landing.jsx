@@ -308,7 +308,6 @@ const Landing = () => {
                 company: "",
                 title: "",
                 date: new Date().toISOString().split("T")[0],
-                fundTitle: fund.title,
               },
             }),
           }
