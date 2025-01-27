@@ -294,7 +294,7 @@ const Landing = () => {
     const getAgreementUrl = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}api/click`,
+          `${import.meta.env.VITE_BACKEND_URL}/click`,
           {
             method: "POST",
             headers: {
