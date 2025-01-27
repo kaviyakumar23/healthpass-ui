@@ -15,7 +15,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { InfoIcon, Globe, FileText, Phone, Shield } from "lucide-react";
+import {
+  InfoIcon,
+  Globe,
+  FileText,
+  Phone,
+  Shield,
+  Loader2,
+} from "lucide-react";
 import useStore from "../store/useStore";
 import travelRequirements from "../constants/travelRequirements";
 import { useNavigate } from "react-router-dom";
@@ -251,14 +258,89 @@ const Footer = () => (
 
 const Landing = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { user } = useStore();
+  const [agreementUrl, setAgreementUrl] = useState(null);
 
   const handleDocuSign = async () => {
-    // DocuSign integration logic
-    console.log("Proceeding with DocuSign for:", selectedCountry);
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/workflows`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            destination: selectedCountry,
+            requirements: travelRequirements[selectedCountry],
+            email: user.user.email,
+            full_name: user.user.name,
+          }),
+        }
+      );
+      const responseData = await response.json();
+      window.location.href = responseData.instance_url;
+    } catch (error) {
+      console.error("Failed to start verification process:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    // Get agreement URL from API
+    const getAgreementUrl = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}api/click`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              clientUserId: localStorage.getItem("email"),
+              documentData: {
+                fullName: localStorage.getItem("full_name"),
+                email: localStorage.getItem("email"),
+                company: "",
+                title: "",
+                date: new Date().toISOString().split("T")[0],
+                fundTitle: fund.title,
+              },
+            }),
+          }
+        );
+        const data = await response.json();
+        setAgreementUrl(data.agreementUrl);
+        console.log(data.agreementUrl);
+        // Initialize Clickwrap with agreement URL
+        if (window.docuSignClick && data.agreementUrl) {
+          window.docuSignClick.Clickwrap.render(
+            {
+              agreementUrl: data.agreementUrl,
+              onAgreed: () => {
+                console.log("User has agreed to the terms");
+                // You can trigger the donation process here
+                handleDonate();
+              },
+            },
+            "#ds-clickwrap"
+          );
+        }
+      } catch (error) {
+        console.error("Error getting agreement URL:", error);
+      }
+    };
+
+    getAgreementUrl();
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
+      <div id="ds-clickwrap"></div>
       <Header />
       <Hero />
 
@@ -326,11 +408,14 @@ const Landing = () => {
 
             <Button
               onClick={handleDocuSign}
-              disabled={!selectedCountry}
+              disabled={!selectedCountry || isLoading}
               className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:opacity-90 
                 transition-all text-lg py-6"
             >
-              Begin Secure Verification Process
+              {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isLoading
+                ? "Starting Verification..."
+                : "Begin Secure Verification Process"}
             </Button>
           </CardContent>
         </Card>
