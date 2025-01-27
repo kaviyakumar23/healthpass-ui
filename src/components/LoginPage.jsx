@@ -34,79 +34,85 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-100 via-white to-blue-50 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-r from-violet-600 to-purple-600 flex flex-col items-center justify-center p-4">
       {/* Logo and Title */}
       <div className="mb-12 text-center space-y-3">
         <div className="flex items-center justify-center gap-2 mb-4">
-          <Shield className="w-10 h-10 text-blue-600" />
-          <h1 className="text-4xl font-bold text-blue-950">
-            DocuSign HealthPass
-          </h1>
+          <Shield className="w-12 h-12 text-white" />
+          <h1 className="text-5xl font-bold text-white">HealthPass</h1>
         </div>
-        <p className="text-gray-600 text-lg">
-          Your secure gateway to global health documentation
+        <p className="text-violet-100 text-xl max-w-xl">
+          Transform your travel experience with secure digital health
+          verification
         </p>
       </div>
 
       {/* Main Login Card */}
-      <Card className="w-full max-w-md shadow-xl border border-gray-100 backdrop-blur-sm bg-white/95">
+      <Card className="w-full max-w-md shadow-2xl border-0 backdrop-blur-sm bg-white/95">
         <CardHeader className="space-y-4 pb-8">
-          <CardTitle className="text-2xl font-semibold text-center text-gray-800">
-            Welcome Back
+          <CardTitle className="text-3xl font-bold text-center text-gray-800">
+            Welcome to HealthPass
           </CardTitle>
-          <CardDescription className="text-center text-gray-600 text-base">
-            Access your health documents and travel requirements securely
+          <CardDescription className="text-center text-gray-600 text-lg">
+            Your gateway to hassle-free international travel
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-8">
           <Button
-            className="w-full h-14 bg-blue-600 hover:bg-blue-700 transition-colors duration-200 
-                       flex items-center justify-center gap-3 text-lg font-medium shadow-sm"
+            className="w-full h-14 bg-gradient-to-r from-violet-600 to-purple-600 hover:opacity-90 
+                       flex items-center justify-center gap-3 text-lg font-medium shadow-lg
+                       hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
             onClick={handleDocuSignLogin}
             disabled={auth.loading}
           >
             {auth.loading && <Loader2 className="animate-spin" />}
             <UserCircle className="w-6 h-6" />
-            Continue with DocuSign
+            Sign in with DocuSign
           </Button>
 
           {/* Features */}
           <div className="mt-10 space-y-6 px-2">
             <div className="flex items-start gap-4 group cursor-default">
-              <Globe className="w-6 h-6 text-blue-500 mt-1 group-hover:text-blue-600 transition-colors" />
+              <Globe className="w-8 h-8 text-violet-500 mt-1 group-hover:text-violet-600 transition-colors" />
               <div>
-                <h3 className="font-semibold text-gray-800 mb-1">
-                  Global Health Document Management
+                <h3 className="font-semibold text-gray-800 mb-2 text-lg">
+                  Smart Travel Documentation
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Store, manage, and access your health documents for
-                  international travel from anywhere
+                  Get instant access to country-specific requirements and
+                  receive verified QR codes for seamless immigration checks
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-4 group cursor-default">
-              <Shield className="w-6 h-6 text-blue-500 mt-1 group-hover:text-blue-600 transition-colors" />
+              <Shield className="w-8 h-8 text-violet-500 mt-1 group-hover:text-violet-600 transition-colors" />
               <div>
-                <h3 className="font-semibold text-gray-800 mb-1">
-                  Enterprise-Grade Security
+                <h3 className="font-semibold text-gray-800 mb-2 text-lg">
+                  Secure Verification
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Protected by DocuSign's world-class authentication and
-                  encryption systems
+                  Industry-leading security powered by DocuSign's trusted
+                  authentication and encryption systems
                 </p>
               </div>
             </div>
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
-          <Alert className="bg-gray-50 border-gray-200">
+          <Alert className="bg-violet-50 border-violet-100">
             <AlertDescription className="text-sm text-gray-600 text-center">
               By continuing, you agree to our{" "}
-              <a href="#" className="text-blue-600 hover:underline">
+              <a
+                href="#"
+                className="text-violet-600 hover:underline font-medium"
+              >
                 Terms of Service
               </a>{" "}
               and{" "}
-              <a href="#" className="text-blue-600 hover:underline">
+              <a
+                href="#"
+                className="text-violet-600 hover:underline font-medium"
+              >
                 Privacy Policy
               </a>
             </AlertDescription>
@@ -116,11 +122,11 @@ const LoginPage = () => {
 
       {/* Footer Info */}
       <div className="mt-8 text-center space-y-2">
-        <p className="text-gray-600">
-          Need help?{" "}
+        <p className="text-violet-100">
+          Need assistance?{" "}
           <a
             href="mailto:support@docusignhealthpass.com"
-            className="text-blue-600 hover:underline font-medium"
+            className="text-white hover:underline font-medium"
           >
             Contact our support team
           </a>
