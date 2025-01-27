@@ -274,7 +274,7 @@ const Landing = () => {
           },
           body: JSON.stringify({
             destination: selectedCountry,
-            requirements: travelRequirements[selectedCountry],
+            requirements: travelRequirements[selectedCountry].join(","),
             email: user.user.email,
             full_name: user.user.name,
           }),
