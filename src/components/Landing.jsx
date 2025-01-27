@@ -301,10 +301,10 @@ const Landing = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              clientUserId: localStorage.getItem("email"),
+              clientUserId: user.user.email,
               documentData: {
-                fullName: localStorage.getItem("full_name"),
-                email: localStorage.getItem("email"),
+                fullName: user.user.name,
+                email: user.user.email,
                 company: "",
                 title: "",
                 date: new Date().toISOString().split("T")[0],
